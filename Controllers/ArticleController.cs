@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -71,7 +72,7 @@ public class ArticleController : ControllerBase {
 
         // Only allow Writers to edit their own articles, Editors can edit any
         if (userRoles.Contains("Writer") && entity.Author.UserName != userName) {
-            return Forbid("Writers can only edit their own articles."); // Return 403 if unauthorized
+            return Forbid();
         }
 
         // Update article fields

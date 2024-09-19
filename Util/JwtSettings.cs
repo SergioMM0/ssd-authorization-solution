@@ -1,4 +1,4 @@
-﻿namespace ssd_authorization_solution.Util.Services;
+﻿namespace ssd_authorization_solution.Util;
 
 public class JwtSettings {
     public string Issuer { get; set; }

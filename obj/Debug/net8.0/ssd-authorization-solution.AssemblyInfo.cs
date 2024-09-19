@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ssd-authorization-solution")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eaf8a88ce5a531c394565fe3455474779446df11")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+69bbdd764177548fdba916bd6ca14dfdc4598dd9")]
 [assembly: System.Reflection.AssemblyProductAttribute("ssd-authorization-solution")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ssd-authorization-solution")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using ssd_authorization_solution.Util.Services;
+using ssd_authorization_solution.Util;
 
 namespace ssd_authorization_solution.Services;
 

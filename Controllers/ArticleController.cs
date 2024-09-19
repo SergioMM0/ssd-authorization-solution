@@ -9,24 +9,24 @@ namespace MyApp.Namespace;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ArticleController : ControllerBase
-{
+public class ArticleController : ControllerBase {
     private readonly AppDbContext ctx;
 
-    public ArticleController(AppDbContext ctx)
-    {
+    public ArticleController(AppDbContext ctx) {
         this.ctx = ctx;
     }
 
+    // Everyone can read articles
     [HttpGet]
-    public IEnumerable<ArticleDto> Get()
-    {
+    [AllowAnonymous] // Open to everyone
+    public IEnumerable<ArticleDto> Get() {
         return ctx.Articles.Include(x => x.Author).Select(ArticleDto.FromEntity);
     }
 
-    [HttpGet(":id")]
-    public ArticleDto? GetById(int id)
-    {
+    // Everyone can view articles by ID
+    [HttpGet("{id}")]
+    [AllowAnonymous] // Open to everyone
+    public ArticleDto? GetById(int id) {
         return ctx
             .Articles.Include(x => x.Author)
             .Where(x => x.Id == id)
@@ -34,14 +34,13 @@ public class ArticleController : ControllerBase
             .SingleOrDefault();
     }
 
+    // Only Editor and Writer can create articles
     [HttpPost]
     [Authorize(Roles = "Editor, Writer")]
-    public ArticleDto Post([FromBody] ArticleFormDto dto)
-    {
+    public ArticleDto Post([FromBody] ArticleFormDto dto) {
         var userName = HttpContext.User.Identity?.Name;
         var author = ctx.Users.Single(x => x.UserName == userName);
-        var entity = new Article
-        {
+        var entity = new Article {
             Title = dto.Title,
             Content = dto.Content,
             Author = author,
@@ -52,39 +51,49 @@ public class ArticleController : ControllerBase
         return ArticleDto.FromEntity(created);
     }
 
-    [HttpPut(":id")]
+    // Writers can only edit their own articles, Editors can edit any article
+    [HttpPut("{id}")]
     [Authorize(Roles = "Editor, Writer")]
-    public ArticleDto Put(int id, [FromBody] ArticleFormDto dto)
-    {
+    public IActionResult Put(int id, [FromBody] ArticleFormDto dto) {
         var userName = HttpContext.User.Identity?.Name;
         var userRoles = HttpContext.User.Claims
             .Where(c => c.Type == ClaimTypes.Role)
             .Select(c => c.Value)
             .ToList();
-        
-        var entity = ctx
-            .Articles
+
+        var entity = ctx.Articles
             .Include(x => x.Author)
-            .Single(x => x.Id == id);
-        
-        // Only allow writers to edit their own articles
-        if (userRoles.Contains("Writer") && entity.Author.UserName != userName)
-        {
-            throw new UnauthorizedAccessException("Writers can only edit their own articles.");
+            .SingleOrDefault(x => x.Id == id);
+
+        if (entity == null) {
+            return NotFound(); // Return 404 if the article is not found
         }
-        
+
+        // Only allow Writers to edit their own articles, Editors can edit any
+        if (userRoles.Contains("Writer") && entity.Author.UserName != userName) {
+            return Forbid("Writers can only edit their own articles."); // Return 403 if unauthorized
+        }
+
+        // Update article fields
         entity.Title = dto.Title;
         entity.Content = dto.Content;
-        var updated = ctx.Articles.Update(entity).Entity;
         ctx.SaveChanges();
-        return ArticleDto.FromEntity(updated);
+
+        return Ok(ArticleDto.FromEntity(entity));
     }
 
-    [HttpDelete(":id")]
+    // Only Editors can delete articles
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Editor")]
-    public void Delete(int id) {
-        var entity = ctx.Articles.Single(x => x.Id == id);
+    public IActionResult Delete(int id) {
+        var entity = ctx.Articles.SingleOrDefault(x => x.Id == id);
+
+        if (entity == null) {
+            return NotFound(); // Return 404 if the article is not found
+        }
+
         ctx.Articles.Remove(entity);
         ctx.SaveChanges();
+        return NoContent();
     }
 }

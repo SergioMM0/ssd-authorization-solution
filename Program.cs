@@ -1,7 +1,10 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ssd_authorization_solution;
+using ssd_authorization_solution.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(connectionString);
 });
 builder.Services.AddScoped<DbSeeder>();
+builder.Services.AddScoped<JwtTokenService>();
 
 builder.Services.AddControllers();
 

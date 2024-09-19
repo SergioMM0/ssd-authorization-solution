@@ -133,3 +133,12 @@ C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\obj\
 C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\obj\Debug\net8.0\ssd-authorization-solution.pdb
 C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\obj\Debug\net8.0\ssd-authorization-solution.genruntimeconfig.cache
 C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\obj\Debug\net8.0\ref\ssd-authorization-solution.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\sergi\securesoftwaredevelopment\Week 38\ssd-authorization-solution\obj\Debug\net8.0\ssd-authorization-solution.sourcelink.json

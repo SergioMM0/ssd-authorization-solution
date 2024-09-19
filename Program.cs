@@ -12,7 +12,8 @@ using ssd_authorization_solution.Util;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(options => {
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
     var connectionString = builder.Configuration.GetConnectionString("AppDb");
     options.UseSqlite(connectionString);
 });
@@ -37,8 +38,10 @@ builder.Services.AddSwaggerGen();
 
 // Authentication configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => {
-        options.TokenValidationParameters = new TokenValidationParameters {
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
             ValidateIssuer = true,
@@ -50,7 +53,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 // Authorization policies
-builder.Services.AddAuthorization(options => {
+builder.Services.AddAuthorization(options =>
+{
     options.AddPolicy("EditorPolicy", policy => policy.RequireRole("Editor"));
     options.AddPolicy("WriterPolicy", policy => policy.RequireRole("Writer", "Journalist"));
     options.AddPolicy("RegisteredUserPolicy", policy => policy.RequireRole("Subscriber", "RegisteredUser"));
@@ -64,7 +68,8 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>(options => { options.Sign
 var app = builder.Build();
 
 // Seed database
-using (var scope = app.Services.CreateScope()) {
+using (var scope = app.Services.CreateScope())
+{
     scope.ServiceProvider.GetRequiredService<DbSeeder>().SeedAsync().Wait();
 }
 

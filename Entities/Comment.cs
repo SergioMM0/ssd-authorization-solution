@@ -7,7 +7,8 @@ namespace ssd_authorization_solution.Entities;
 
 [Index("AuthorId", Name = "IX_Comments_AuthorId")]
 [Index("ArticleId", Name = "IX_Comments_ArticleId")]
-public class Comment {
+public class Comment
+{
     [Key] public int Id { get; set; }
 
     public string Content { get; set; }

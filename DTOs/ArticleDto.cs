@@ -2,7 +2,8 @@ using ssd_authorization_solution.Entities;
 
 namespace ssd_authorization_solution.DTOs;
 
-public class ArticleDto {
+public class ArticleDto
+{
     public int Id { get; set; }
 
     public string Title { get; set; }
@@ -13,8 +14,10 @@ public class ArticleDto {
 
     public DateTime CreatedAt { get; set; }
 
-    public static ArticleDto FromEntity(Article entity) {
-        return new ArticleDto {
+    public static ArticleDto FromEntity(Article entity)
+    {
+        return new ArticleDto
+        {
             Id = entity.Id,
             Title = entity.Title,
             Content = entity.Content,

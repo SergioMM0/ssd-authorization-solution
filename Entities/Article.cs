@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 namespace ssd_authorization_solution.Entities;
 
 [Index("AuthorId", Name = "IX_Articles_AuthorId")]
-public class Article {
+public class Article
+{
     [Key] public int Id { get; set; }
 
     public string Title { get; set; }

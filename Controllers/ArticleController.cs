@@ -10,24 +10,28 @@ namespace MyApp.Namespace;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ArticleController : ControllerBase {
+public class ArticleController : ControllerBase
+{
     private readonly AppDbContext ctx;
 
-    public ArticleController(AppDbContext ctx) {
+    public ArticleController(AppDbContext ctx)
+    {
         this.ctx = ctx;
     }
 
     // Everyone can read articles
     [HttpGet]
     [AllowAnonymous] // Open to everyone
-    public IEnumerable<ArticleDto> Get() {
+    public IEnumerable<ArticleDto> Get()
+    {
         return ctx.Articles.Include(x => x.Author).Select(ArticleDto.FromEntity);
     }
 
     // Everyone can view articles by ID
     [HttpGet("{id}")]
     [AllowAnonymous] // Open to everyone
-    public ArticleDto? GetById(int id) {
+    public ArticleDto? GetById(int id)
+    {
         return ctx
             .Articles.Include(x => x.Author)
             .Where(x => x.Id == id)
@@ -38,10 +42,12 @@ public class ArticleController : ControllerBase {
     // Only Editor and Writer can create articles
     [HttpPost]
     [Authorize(Roles = "Editor, Writer")]
-    public ArticleDto Post([FromBody] ArticleFormDto dto) {
+    public ArticleDto Post([FromBody] ArticleFormDto dto)
+    {
         var userName = HttpContext.User.Identity?.Name;
         var author = ctx.Users.Single(x => x.UserName == userName);
-        var entity = new Article {
+        var entity = new Article
+        {
             Title = dto.Title,
             Content = dto.Content,
             Author = author,
@@ -55,7 +61,8 @@ public class ArticleController : ControllerBase {
     // Writers can only edit their own articles, Editors can edit any article
     [HttpPut("{id}")]
     [Authorize(Roles = "Editor, Writer")]
-    public IActionResult Put(int id, [FromBody] ArticleFormDto dto) {
+    public IActionResult Put(int id, [FromBody] ArticleFormDto dto)
+    {
         var userName = HttpContext.User.Identity?.Name;
         var userRoles = HttpContext.User.Claims
             .Where(c => c.Type == ClaimTypes.Role)
@@ -66,12 +73,14 @@ public class ArticleController : ControllerBase {
             .Include(x => x.Author)
             .SingleOrDefault(x => x.Id == id);
 
-        if (entity == null) {
+        if (entity == null)
+        {
             return NotFound(); // Return 404 if the article is not found
         }
 
         // Only allow Writers to edit their own articles, Editors can edit any
-        if (userRoles.Contains("Writer") && entity.Author.UserName != userName) {
+        if (userRoles.Contains("Writer") && entity.Author.UserName != userName)
+        {
             return Forbid();
         }
 
@@ -86,10 +95,12 @@ public class ArticleController : ControllerBase {
     // Only Editors can delete articles
     [HttpDelete("{id}")]
     [Authorize(Roles = "Editor")]
-    public IActionResult Delete(int id) {
+    public IActionResult Delete(int id)
+    {
         var entity = ctx.Articles.SingleOrDefault(x => x.Id == id);
 
-        if (entity == null) {
+        if (entity == null)
+        {
             return NotFound(); // Return 404 if the article is not found
         }
 

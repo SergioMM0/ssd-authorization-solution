@@ -6,14 +6,17 @@ using ssd_authorization_solution.Util;
 
 namespace ssd_authorization_solution.Services;
 
-public class JwtTokenService {
+public class JwtTokenService
+{
     private readonly JwtSettings _jwtSettings;
 
-    public JwtTokenService(JwtSettings jwtSettings) {
+    public JwtTokenService(JwtSettings jwtSettings)
+    {
         _jwtSettings = jwtSettings;
     }
 
-    public string GenerateToken(string userName, string role) {
+    public string GenerateToken(string userName, string role)
+    {
         // Create Claims
         var claims = new[] {
             new Claim(JwtRegisteredClaimNames.Sub, userName),

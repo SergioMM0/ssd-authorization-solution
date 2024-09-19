@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using ssd_authorization_solution.Services; // For JwtTokenService
 using ssd_authorization_solution.DTOs;
 
-namespace ssd_authorization_solution.Controllers {
+namespace ssd_authorization_solution.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
-    public class AuthController : ControllerBase {
+    public class AuthController : ControllerBase
+    {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly JwtTokenService _jwtTokenService;
@@ -16,21 +18,25 @@ namespace ssd_authorization_solution.Controllers {
         public AuthController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            JwtTokenService jwtTokenService) {
+            JwtTokenService jwtTokenService)
+        {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtTokenService = jwtTokenService;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginDto) {
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginDto)
+        {
             var user = await _userManager.FindByNameAsync(loginDto.Username);
-            if (user == null) {
+            if (user == null)
+            {
                 return Unauthorized(new { message = "Invalid username or password." });
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-            if (!result.Succeeded) {
+            if (!result.Succeeded)
+            {
                 return Unauthorized(new { message = "Invalid username or password." });
             }
 
@@ -43,16 +49,19 @@ namespace ssd_authorization_solution.Controllers {
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerDto) {
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerDto)
+        {
             // Create a new IdentityUser object
-            var newUser = new IdentityUser {
+            var newUser = new IdentityUser
+            {
                 UserName = registerDto.UserName,
                 Email = registerDto.Email
             };
 
             // Create the user using UserManager
             var result = await _userManager.CreateAsync(newUser, registerDto.Password);
-            if (!result.Succeeded) {
+            if (!result.Succeeded)
+            {
                 // Return error if user creation failed
                 return BadRequest(result.Errors);
             }
